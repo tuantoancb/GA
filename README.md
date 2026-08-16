@@ -1,3 +1,4 @@
-FORM GIAO AN AUTO V3.1
+FORM GIAO AN AUTO V3.2
 
-Da map entry Google Form. Upload index.html va vercel.json len repo GitHub/Vercel.
+Sua mapping: dung entry ID ben trong data-params, khong dung question ID ben ngoai.
+Upload index.html va vercel.json len repo GitHub/Vercel.

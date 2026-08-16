@@ -1,17 +1,17 @@
 <!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Form Giáo án - Auto V3.1</title><style>
+<title>Form Giáo án - Auto V3.2</title><style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f7fc;color:#10203c}header{padding:23px 5%;background:linear-gradient(110deg,#2455d9,#13758b);color:white}header h1{margin:0 0 6px;font-size:28px}
 .wrap{max-width:1200px;margin:28px auto;padding:0 18px;display:grid;grid-template-columns:340px 1fr;gap:22px}.card{background:white;border-radius:18px;padding:22px;box-shadow:0 8px 28px #16335a12}
 h2{margin-top:0}label{font-weight:700;display:block;margin:13px 0 7px}input,select{width:100%;padding:12px;border:1px solid #cbd6e6;border-radius:10px;font-size:16px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}button{border:0;border-radius:11px;padding:13px 16px;font-weight:700;font-size:15px;cursor:pointer}.blue{background:#2864ea;color:white}.green{background:#0aa164;color:white}.light{background:#edf3ff;color:#2455d9}.danger{background:#fff0f0;color:#b52a2a}
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.profile{padding:11px;border:1px solid #dce5f2;border-radius:10px;margin:8px 0;cursor:pointer}.note{margin-top:18px;padding:14px;border-radius:12px;background:#fff6dc;color:#765600;line-height:1.5}.ok{background:#eaf9f1;color:#087b4b}
 @media(max-width:800px){.wrap{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
-</style></head><body><header><h1>📘 FORM GIÁO ÁN – TỰ ĐỘNG ĐIỀN V3.1</h1><div>Chọn hồ sơ → nhập bài dạy → mở Google Form đã điền → tải file Word → Gửi</div></header>
+</style></head><body><header><h1>📘 FORM GIÁO ÁN – TỰ ĐỘNG ĐIỀN V3.2</h1><div>Chọn hồ sơ → nhập bài dạy → mở Google Form đã điền → tải file Word → Gửi</div></header>
 <main class="wrap"><aside class="card"><h2>👤 Hồ sơ giáo viên</h2>
 <label>Tên hồ sơ</label><input id="profileName" placeholder="Ví dụ: Nguyễn Thanh Tuấn - Toán">
 <label>Họ và tên</label><input id="p_name"><label>Môn/HĐGD</label><input id="p_subject"><label>Tổ chuyên môn</label><input id="p_team"><label>Tên người duyệt</label><input id="p_approver">
 <div class="actions"><button class="blue" onclick="saveProfile()">💾 Lưu hồ sơ</button></div><h3>Hồ sơ đã lưu</h3><div id="profiles"></div>
-<div class="note ok">✓ V3.1 đã tích hợp đầy đủ mã entry của Google Form. Không cần đọc cấu trúc Form và không còn lỗi 401.</div></aside>
+<div class="note ok">✓ V3.2 đã tích hợp đầy đủ mã entry của Google Form. Không cần đọc cấu trúc Form và không còn lỗi 401.</div></aside>
 <section class="card"><h2>📝 Thông tin nộp giáo án</h2>
 <div class="row"><div><label>Họ và tên *</label><input id="name"></div><div><label>Môn/HĐGD *</label><input id="subject"></div></div>
 <div class="row"><div><label>Tổ chuyên môn *</label><input id="team"></div><div><label>Ngày/tháng/năm *</label><input id="date" type="date"></div></div>
@@ -22,7 +22,7 @@ h2{margin-top:0}label{font-weight:700;display:block;margin:13px 0 7px}input,sele
 <div class="note"><b>Bước cuối:</b> Form Google mở ở tab mới với các trường đã điền sẵn. Kiểm tra lại, tải file Word giáo án lên rồi bấm <b>Gửi</b>. Nếu một lựa chọn thả xuống không khớp chính xác với Form, Google có thể để trống mục đó.</div></section></main>
 <script>
 const FORM="https://docs.google.com/forms/d/e/1FAIpQLSf20YrTDt_BOqmIrZ8oYp85Sd7eCEu2ugcJslLcKbNmCwrU2A/viewform";
-const ENTRY={"name": "1182319121", "subject": "814991498", "team": "2134201140", "date": "1755744654", "lesson": "899506531", "className": "1692745504", "periods": "1986560450", "range": "1841401562", "approver": "68881266"};
+const ENTRY={"name": "1039854064", "subject": "311167583", "team": "1030504847", "date": "392066118", "lesson": "35887539", "className": "851950241", "periods": "993971607", "range": "202499073", "approver": "3704355"};
 const $=id=>document.getElementById(id);
 $('date').value=new Date().toISOString().slice(0,10);
 function getProfiles(){return JSON.parse(localStorage.getItem('ga_profiles_v31')||'[]')}
