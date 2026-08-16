@@ -1,3 +1,3 @@
-FORM GIAO AN V3
+FORM GIAO AN AUTO V3.1
 
-Upload index.html va vercel.json len repo GitHub dang ket noi Vercel. V3 bo API doc Google Form de tranh loi 401.
+Da map entry Google Form. Upload index.html va vercel.json len repo GitHub/Vercel.
