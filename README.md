@@ -1,9 +1,3 @@
-# Form Giáo Án Auto V2
+FORM GIAO AN V3
 
-- Đọc cấu trúc Google Form qua API serverless.
-- Lưu hồ sơ giáo viên trong localStorage.
-- Tự điền các trường dạng dropdown/text/date bằng link prefilled.
-- File upload vẫn được chọn trực tiếp trên Google Form do giới hạn bảo mật của trình duyệt/Google Forms.
-
-## Chạy trên Vercel
-Import thư mục này lên Vercel hoặc dùng Vercel CLI. Không cần biến môi trường.
+Upload index.html va vercel.json len repo GitHub dang ket noi Vercel. V3 bo API doc Google Form de tranh loi 401.

@@ -1,92 +1,10 @@
-<!doctype html>
-<html lang="vi">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Form Giáo Án Auto V2</title>
-<style>
-:root{--bg:#f6f8fc;--card:#fff;--text:#172033;--muted:#6b7280;--blue:#2563eb;--green:#16a34a;--red:#dc2626;--line:#e5e7eb;--shadow:0 10px 30px rgba(15,23,42,.08)}
-*{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#eef5ff 0,#f8fafc 42%,#fff 100%);color:var(--text)}
-header{background:linear-gradient(135deg,#1d4ed8,#0f766e);color:#fff;padding:22px 28px;box-shadow:var(--shadow)}
-.wrap{max-width:1180px;margin:0 auto}.brand{display:flex;align-items:center;justify-content:space-between;gap:16px}.brand h1{font-size:23px;margin:0}.pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);padding:6px 10px;border-radius:999px;font-size:13px}
-main{max-width:1180px;margin:24px auto;padding:0 18px 42px}.grid{display:grid;grid-template-columns:340px 1fr;gap:20px}.card{background:var(--card);border:1px solid #e7ebf1;border-radius:18px;box-shadow:var(--shadow);padding:18px}.card h2{font-size:16px;margin:0 0 14px}.card h3{font-size:14px;margin:20px 0 10px;color:#334155}
-label{display:block;font-size:13px;font-weight:700;margin:12px 0 6px}input,select,textarea{width:100%;border:1px solid #cfd7e3;background:#fff;border-radius:10px;padding:11px 12px;font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 3px rgba(37,99,235,.1)}textarea{min-height:86px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.btn{border:0;border-radius:10px;padding:11px 14px;font-weight:800;cursor:pointer}.btn-primary{background:var(--blue);color:#fff}.btn-green{background:var(--green);color:#fff}.btn-light{background:#eef2ff;color:#1e40af}.btn-danger{background:#fee2e2;color:#991b1b}.btn:disabled{opacity:.5;cursor:not-allowed}.stack{display:flex;gap:10px;flex-wrap:wrap}.stack .btn{flex:1}.muted{font-size:12px;color:var(--muted);line-height:1.45}.status{padding:10px 12px;border-radius:10px;background:#eff6ff;color:#1d4ed8;font-size:13px;margin-top:12px}.status.ok{background:#ecfdf5;color:#047857}.status.err{background:#fef2f2;color:#b91c1c}
-.profile{border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;cursor:pointer}.profile.active{border-color:#60a5fa;background:#eff6ff}.profile b{display:block}.profile small{color:var(--muted)}
-.notice{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;padding:12px;border-radius:12px;font-size:13px;line-height:1.5;margin-top:14px}.footer{text-align:center;color:#64748b;font-size:12px;margin-top:24px}
-@media(max-width:860px){.grid{grid-template-columns:1fr}.row{grid-template-columns:1fr}.brand{align-items:flex-start;flex-direction:column}.stack .btn{flex:unset;width:100%}}
-</style>
-</head>
-<body>
-<header><div class="wrap brand"><div><h1>📘 FORM GIÁO ÁN – TỰ ĐỘNG ĐIỀN V2</h1><div style="opacity:.9;margin-top:5px;font-size:13px">Lưu hồ sơ giáo viên • Tự lấy ngày • Mở Google Form đã điền</div></div><span class="pill">V2.0</span></div></header>
-<main>
-<div class="grid">
-<section class="card">
-<h2>🔗 Google Form</h2>
-<label>Link Google Form</label>
-<input id="formUrl" value="https://docs.google.com/forms/d/e/1FAIpQLSf20YrTDt_BOqmIrZ8oYp85Sd7eCEu2ugcJslLcKbNmCwrU2A/viewform" />
-<div class="stack" style="margin-top:10px"><button class="btn btn-primary" id="loadSchema">Đọc cấu trúc Form</button><button class="btn btn-light" id="resetSchema">Làm mới</button></div>
-<div id="schemaStatus" class="status">Chưa đọc cấu trúc Form.</div>
-
-<h3>👤 Hồ sơ giáo viên</h3>
-<div id="profileList"></div>
-<button class="btn btn-light" style="width:100%;margin-top:8px" id="newProfile">+ Tạo hồ sơ mới</button>
-
-<div class="notice">Mục <b>tải file giáo án</b> của Google Forms không thể gắn file tự động từ website bên ngoài. App sẽ điền các trường còn lại; sau khi mở Form, thầy chọn file Word rồi bấm <b>Gửi</b>.</div>
-</section>
-
-<section class="card">
-<h2>📝 Thông tin nộp giáo án</h2>
-<div class="row">
-<div><label>Họ và tên *</label><select id="teacher"></select></div>
-<div><label>Môn/HĐGD *</label><select id="subject"></select></div>
-</div>
-<div class="row">
-<div><label>Tổ chuyên môn *</label><select id="department"></select></div>
-<div><label>Tên người duyệt *</label><select id="approver"></select></div>
-</div>
-<div class="row">
-<div><label>Ngày/tháng/năm *</label><input id="date" type="date" /></div>
-<div><label>Lớp</label><select id="className"></select></div>
-</div>
-<label>Tên bài học/chuyên đề/nội dung *</label><input id="lesson" placeholder="Ví dụ: Vợ nhặt – Kim Lân" />
-<div class="row">
-<div><label>Số tiết *</label><select id="periodCount"></select></div>
-<div><label>Từ tiết đến tiết (a-b)</label><input id="periodRange" placeholder="Ví dụ: 23-24" /></div>
-</div>
-
-<h3>💾 Lưu hồ sơ</h3>
-<label>Tên hồ sơ</label><input id="profileName" placeholder="Ví dụ: Nguyễn Kim Hội – Ngữ văn" />
-<div class="stack" style="margin-top:10px"><button class="btn btn-green" id="saveProfile">Lưu hồ sơ</button><button class="btn btn-danger" id="deleteProfile">Xóa hồ sơ</button></div>
-
-<h3>🚀 Thực hiện</h3>
-<div class="stack"><button class="btn btn-primary" id="openPrefilled">Mở Form đã điền</button><button class="btn btn-light" id="copyLink">Sao chép link điền sẵn</button></div>
-<div id="actionStatus" class="status ok">Sẵn sàng.</div>
-</section>
-</div>
-<div class="footer">Dữ liệu hồ sơ được lưu trong trình duyệt của thiết bị này.</div>
-</main>
-<script>
-const $=id=>document.getElementById(id); let schema=null; let currentProfile=-1;
-const fieldAliases={teacher:['Họ và tên'],subject:['Môn/HĐGD'],department:['Tổ chuyên môn'],date:['Ngày/tháng/năm'],lesson:['Tên bài học/chuyên đề/nội dung'],className:['Lớp'],periodCount:['Số tiết'],periodRange:['Từ tiết đến tiết (a-b)'],approver:['Tên người duyệt (TTCM/LĐ trường)']};
-function today(){const d=new Date();d.setMinutes(d.getMinutes()-d.getTimezoneOffset());return d.toISOString().slice(0,10)} $('date').value=today();
-function profiles(){return JSON.parse(localStorage.getItem('form_auto_profiles_v2')||'[]')} function saveProfiles(v){localStorage.setItem('form_auto_profiles_v2',JSON.stringify(v));renderProfiles()}
-function renderProfiles(){let p=profiles();$('profileList').innerHTML=p.length?p.map((x,i)=>`<div class="profile ${i===currentProfile?'active':''}" data-i="${i}"><b>${escapeHtml(x.name||'Hồ sơ')}</b><small>${escapeHtml([x.teacher,x.subject,x.department].filter(Boolean).join(' • '))}</small></div>`).join(''):'<div class="muted">Chưa có hồ sơ nào.</div>';document.querySelectorAll('.profile').forEach(el=>el.onclick=()=>loadProfile(+el.dataset.i))}
-function escapeHtml(s=''){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-function setStatus(id,msg,kind=''){let el=$(id);el.textContent=msg;el.className='status '+kind}
-function findField(aliasList){if(!schema)return null;let names=aliasList.map(s=>s.toLowerCase());return schema.fields.find(f=>names.some(n=>(f.title||'').toLowerCase().includes(n)))}
-function setOptions(id,aliases){let el=$(id),f=findField(aliases);el.innerHTML=''; if(!f){el.innerHTML='<option value="">Không tìm thấy trường</option>';return} let opts=f.options||[]; if(!opts.length){el.innerHTML='<option value="">Nhập/không có danh sách</option>';return} el.innerHTML='<option value="">Chọn</option>'+opts.map(o=>`<option>${escapeHtml(o)}</option>`).join('')}
-function applySchema(){setOptions('teacher',fieldAliases.teacher);setOptions('subject',fieldAliases.subject);setOptions('department',fieldAliases.department);setOptions('approver',fieldAliases.approver);setOptions('className',fieldAliases.className);setOptions('periodCount',fieldAliases.periodCount)}
-$('loadSchema').onclick=async()=>{let url=$('formUrl').value.trim();setStatus('schemaStatus','Đang đọc cấu trúc Form...');try{let r=await fetch('/api/form-schema?url='+encodeURIComponent(url));let j=await r.json();if(!r.ok)throw new Error(j.error||'Không đọc được Form');schema=j;localStorage.setItem('form_auto_schema_v2',JSON.stringify(j));applySchema();setStatus('schemaStatus',`Đã đọc ${j.fields.length} trường từ Google Form.`,'ok')}catch(e){setStatus('schemaStatus',e.message,'err')}};
-$('resetSchema').onclick=()=>{localStorage.removeItem('form_auto_schema_v2');schema=null;setStatus('schemaStatus','Đã xóa cấu trúc đã lưu.');['teacher','subject','department','approver','className','periodCount'].forEach(id=>$(id).innerHTML='')};
-function loadProfile(i){let p=profiles()[i];if(!p)return;currentProfile=i;['teacher','subject','department','approver','className'].forEach(k=>{if($(k)&&p[k]!=null)$(k).value=p[k]});$('profileName').value=p.name||'';renderProfiles();setStatus('actionStatus','Đã nạp hồ sơ: '+(p.name||''),'ok')}
-$('newProfile').onclick=()=>{currentProfile=-1;$('profileName').value='';['teacher','subject','department','approver','className'].forEach(k=>$(k).value='');renderProfiles()};
-$('saveProfile').onclick=()=>{let p={name:$('profileName').value.trim()||$('teacher').value||'Hồ sơ mới',teacher:$('teacher').value,subject:$('subject').value,department:$('department').value,approver:$('approver').value,className:$('className').value};let arr=profiles();if(currentProfile>=0)arr[currentProfile]=p;else{arr.push(p);currentProfile=arr.length-1}saveProfiles(arr);setStatus('actionStatus','Đã lưu hồ sơ.','ok')};
-$('deleteProfile').onclick=()=>{if(currentProfile<0)return setStatus('actionStatus','Chưa chọn hồ sơ để xóa.','err');let arr=profiles();arr.splice(currentProfile,1);currentProfile=-1;saveProfiles(arr);setStatus('actionStatus','Đã xóa hồ sơ.','ok')};
-function fmtDate(v){if(!v)return'';let [y,m,d]=v.split('-');return `${d}/${m}/${y}`}
-function buildUrl(){if(!schema)throw new Error('Hãy bấm “Đọc cấu trúc Form” trước.');let base=$('formUrl').value.trim().replace(/\?.*$/,'');let params=new URLSearchParams();params.set('usp','pp_url');let vals={teacher:$('teacher').value,subject:$('subject').value,department:$('department').value,date:fmtDate($('date').value),lesson:$('lesson').value,className:$('className').value,periodCount:$('periodCount').value,periodRange:$('periodRange').value,approver:$('approver').value};for(let [k,aliases] of Object.entries(fieldAliases)){let f=findField(aliases);if(f&&f.entryId&&vals[k])params.set('entry.'+f.entryId,vals[k])}return base+'?'+params.toString()}
-$('openPrefilled').onclick=()=>{try{let u=buildUrl();window.open(u,'_blank');setStatus('actionStatus','Đã mở Google Form. Hãy tải file giáo án và bấm Gửi.','ok')}catch(e){setStatus('actionStatus',e.message,'err')}};
-$('copyLink').onclick=async()=>{try{let u=buildUrl();await navigator.clipboard.writeText(u);setStatus('actionStatus','Đã sao chép link điền sẵn.','ok')}catch(e){setStatus('actionStatus',e.message,'err')}};
-(function init(){renderProfiles();let s=localStorage.getItem('form_auto_schema_v2');if(s){try{schema=JSON.parse(s);applySchema();setStatus('schemaStatus',`Đã nạp cấu trúc đã lưu (${schema.fields.length} trường).`,'ok')}catch{}}})();
-</script>
-</body>
-</html>
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Form Giáo án - Tự động điền V3</title><style>*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f7fc;color:#13213c}header{padding:24px 5%;background:linear-gradient(110deg,#2455d9,#14748c);color:#fff}header h1{margin:0;font-size:28px}.wrap{max-width:1200px;margin:28px auto;padding:0 18px;display:grid;grid-template-columns:330px 1fr;gap:22px}.card{background:#fff;border-radius:18px;padding:22px;box-shadow:0 8px 28px #16335a12}h2{margin-top:0;font-size:20px}label{font-weight:700;display:block;margin:14px 0 7px}input,select{width:100%;padding:12px;border:1px solid #cbd6e6;border-radius:10px;font-size:16px}button{border:0;border-radius:11px;padding:13px 16px;font-weight:700;font-size:15px;cursor:pointer}.blue{background:#2763e9;color:#fff}.green{background:#0b9d64;color:#fff}.light{background:#edf3ff;color:#2455d9}.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.note{margin-top:18px;padding:14px;border-radius:12px;background:#fff7df;color:#745600;font-size:14px;line-height:1.5}.profiles{margin:12px 0;display:grid;gap:8px}.profile{padding:10px;border:1px solid #dce5f2;border-radius:10px;cursor:pointer}.actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}@media(max-width:800px){.wrap{grid-template-columns:1fr}.row{grid-template-columns:1fr}}</style></head><body><header><h1>📘 FORM GIÁO ÁN – TỰ ĐỘNG ĐIỀN V3</h1><div>Lưu hồ sơ giáo viên • Tự lấy ngày • Mở Google Form đã điền</div></header><main class="wrap"><aside class="card"><h2>👤 Hồ sơ giáo viên</h2><label>Tên hồ sơ</label><input id="profileName" placeholder="Ví dụ: Nguyễn Kim Hội - Ngữ văn"><label>Họ và tên</label><input id="name"><label>Môn/HĐGD</label><input id="subject"><label>Tổ chuyên môn</label><input id="team"><label>Tên người duyệt</label><input id="approver"><div class="actions"><button class="blue" onclick="saveProfile()">💾 Lưu hồ sơ</button></div><h3>Hồ sơ đã lưu</h3><div id="profiles" class="profiles"></div><div class="note">V3 không đọc cấu trúc Form nên không còn lỗi 401. App lưu dữ liệu trên trình duyệt này.</div></aside><section class="card"><h2>📝 Thông tin nộp giáo án</h2><div class="row"><div><label>Họ và tên *</label><input id="f_name"></div><div><label>Môn/HĐGD *</label><input id="f_subject"></div></div><div class="row"><div><label>Tổ chuyên môn *</label><input id="f_team"></div><div><label>Ngày/tháng/năm *</label><input id="date" type="date"></div></div><label>Tên bài học/chuyên đề/nội dung *</label><input id="lesson"><div class="row"><div><label>Lớp</label><input id="className"></div><div><label>Số tiết *</label><input id="periods" placeholder="Ví dụ: 2"></div></div><label>Từ tiết đến tiết (a-b)</label><input id="range" placeholder="Ví dụ: 1-2"><label>Tên người duyệt *</label><input id="f_approver"><div class="actions"><button class="green" onclick="openForm()">🚀 Mở Google Form để hoàn tất</button><button class="light" onclick="clearLesson()">Làm mới bài dạy</button></div><div class="note"><b>Bước cuối:</b> Google Form sẽ mở trong tab mới. Do Form có mục tải tệp, hãy đăng nhập Google, kiểm tra dữ liệu, tải file Word giáo án rồi bấm <b>Gửi</b>.</div></section></main><script>
+const FORM='https://docs.google.com/forms/d/e/1FAIpQLSf20YrTDt_BOqmIrZ8oYp85Sd7eCEu2ugcJslLcKbNmCwrU2A/viewform';
+const $=id=>document.getElementById(id); $('date').value=new Date().toISOString().slice(0,10);
+function profiles(){return JSON.parse(localStorage.getItem('ga_profiles_v3')||'[]')}
+function render(){let p=profiles();$('profiles').innerHTML=p.length?p.map((x,i)=>`<div class="profile" onclick="useProfile(${i})"><b>${x.profileName}</b><br><small>${x.name} • ${x.subject}</small></div>`).join(''):'<small>Chưa có hồ sơ nào.</small>'}
+function saveProfile(){let x={profileName:$('profileName').value||$('name').value,name:$('name').value,subject:$('subject').value,team:$('team').value,approver:$('approver').value};if(!x.name)return alert('Vui lòng nhập họ và tên.');let p=profiles();p.push(x);localStorage.setItem('ga_profiles_v3',JSON.stringify(p));render();useProfile(p.length-1)}
+function useProfile(i){let x=profiles()[i];$('f_name').value=x.name;$('f_subject').value=x.subject;$('f_team').value=x.team;$('f_approver').value=x.approver}
+function clearLesson(){$('lesson').value='';$('className').value='';$('periods').value='';$('range').value='';$('date').value=new Date().toISOString().slice(0,10)}
+function openForm(){let required=['f_name','f_subject','f_team','lesson','periods','f_approver'];if(required.some(id=>!$(id).value.trim()))return alert('Vui lòng nhập đủ các mục bắt buộc.');window.open(FORM,'_blank')}
+render();</script></body></html>
