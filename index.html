@@ -129,16 +129,7 @@ body{margin:0;font-family:"Segoe UI","Noto Sans","Roboto","Arial",sans-serif;bac
     <div class="field full"><label>Từ tiết đến tiết (a-b) <span class="req">*</span></label><input id="range"></div>
     <div class="field full"><label>Tên người duyệt <span class="req">*</span></label><input id="approver"></div>
 
-    <div class="uploadbox">
-      <div class="uploadtitle">Tải file giáo án nộp để duyệt (01 file word, nếu có nhiều file sẽ ghép vào thành 01 file)</div>
-      <div class="fileline">
-        <div class="fileinfo"><div class="fileicon">📘</div><div><b id="fileName">Chưa chọn file nào</b><br><small>Định dạng: .doc, .docx</small></div></div>
-        <label class="choose">⬆ Chọn file<input id="fileInput" type="file" accept=".doc,.docx" hidden></label>
-      </div>
-    </div>
-  </div>
-
-  <div class="actions">
+    <div class="actions">
     <button class="open" onclick="openPrefilled()">🚀 Mở Google Form đã điền</button>
     <button class="save" onclick="saveLesson()">💾 Lưu thông tin bài dạy</button>
     <button class="reset" onclick="resetLesson()">↻ Làm mới</button>
@@ -151,8 +142,8 @@ body{margin:0;font-family:"Segoe UI","Noto Sans","Roboto","Arial",sans-serif;bac
   <div class="steps">
     <div class="step"><div class="ico">👤</div><div><b>1. Chọn hồ sơ</b><span>Chọn 1 trong 3 hồ sơ bên trái.</span></div></div>
     <div class="step"><div class="ico">📝</div><div><b>2. Nhập thông tin bài dạy</b><span>Nhập tên bài, số tiết, khoảng tiết, ngày dạy.</span></div></div>
-    <div class="step"><div class="ico">⬆</div><div><b>3. Tải file giáo án</b><span>Chọn file Word nếu cần gửi kèm.</span></div></div>
-    <div class="step"><div class="ico">🚀</div><div><b>4. Mở Google Form</b><span>Bấm để mở Form đã được điền sẵn.</span></div></div>
+    <div class="step"><div class="ico">⬆</div><div><b>3. Mở Google Form</b><span>Dữ liệu được chuyển sang Google Form đã điền sẵn.</span></div></div>
+    <div class="step"><div class="ico">🚀</div><div><b>4. Tải file giáo án</b><span>Chọn file Word trực tiếp trên Google Form.</span></div></div>
     <div class="step"><div class="ico">✅</div><div><b>5. Gửi form</b><span>Tải file lên trong Google Form và bấm Gửi.</span></div></div>
   </div>
 </section>
@@ -215,11 +206,6 @@ function clearCurrent(){
 }
 function today(){return new Date().toISOString().slice(0,10)}
 $('date').value=today();
-
-$('fileInput').addEventListener('change',e=>{
- const f=e.target.files[0];$('fileName').textContent=f?f.name:'Chưa chọn file nào';
-});
-
 function saveLesson(){
  const data={lesson:$('lesson').value,periods:$('periods').value,range:$('range').value,date:$('date').value};
  localStorage.setItem('ga_lesson_v37',JSON.stringify(data));alert('Đã lưu thông tin bài dạy.');
@@ -228,7 +214,7 @@ function loadLesson(){
  try{const d=JSON.parse(localStorage.getItem('ga_lesson_v37')||'{}');if(d.lesson)$('lesson').value=d.lesson;if(d.periods)$('periods').value=d.periods;if(d.range)$('range').value=d.range;if(d.date)$('date').value=d.date}catch(e){}
 }
 function resetLesson(){
- $('lesson').value='';$('periods').value='';$('range').value='';$('date').value=today();$('fileInput').value='';$('fileName').textContent='Chưa chọn file nào';
+ $('lesson').value='';$('periods').value='';$('range').value='';$('date').value=today();
 }
 function openPrefilled(){
  const req=['name','subject','team','date','lesson','className','periods','range','approver'];

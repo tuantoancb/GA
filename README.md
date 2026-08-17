@@ -1,6 +1,7 @@
-NỘP GIÁO ÁN ONLINE V3.9
+NỘP GIÁO ÁN ONLINE V4.0 - BẢN CHỐT
 
-- Font chính: Segoe UI, fallback Noto Sans / Roboto / Arial.
-- Tối ưu cỡ chữ: tiêu đề 26px, tiêu đề khu vực 20px, nhãn 15px, ô nhập 16px, chú thích 13-14px.
-- Giảm chữ quá đậm để giao diện nhẹ và dễ đọc hơn.
-- Giữ nguyên 3 hồ sơ nhanh và chức năng tự điền Google Form.
+- 3 hồ sơ nhanh.
+- Font Segoe UI, hiển thị tiếng Việt rõ ràng.
+- Giữ chức năng tự động điền Google Form.
+- Đã bỏ phần chọn file Word trong app.
+- File Word được tải trực tiếp trên Google Form trước khi bấm Gửi.
