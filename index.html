@@ -1,40 +1,204 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Form Giáo án - Auto V3.2</title><style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f7fc;color:#10203c}header{padding:23px 5%;background:linear-gradient(110deg,#2455d9,#13758b);color:white}header h1{margin:0 0 6px;font-size:28px}
-.wrap{max-width:1200px;margin:28px auto;padding:0 18px;display:grid;grid-template-columns:340px 1fr;gap:22px}.card{background:white;border-radius:18px;padding:22px;box-shadow:0 8px 28px #16335a12}
-h2{margin-top:0}label{font-weight:700;display:block;margin:13px 0 7px}input,select{width:100%;padding:12px;border:1px solid #cbd6e6;border-radius:10px;font-size:16px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}button{border:0;border-radius:11px;padding:13px 16px;font-weight:700;font-size:15px;cursor:pointer}.blue{background:#2864ea;color:white}.green{background:#0aa164;color:white}.light{background:#edf3ff;color:#2455d9}.danger{background:#fff0f0;color:#b52a2a}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.profile{padding:11px;border:1px solid #dce5f2;border-radius:10px;margin:8px 0;cursor:pointer}.note{margin-top:18px;padding:14px;border-radius:12px;background:#fff6dc;color:#765600;line-height:1.5}.ok{background:#eaf9f1;color:#087b4b}
-@media(max-width:800px){.wrap{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
-</style></head><body><header><h1>📘 FORM GIÁO ÁN – TỰ ĐỘNG ĐIỀN V3.2</h1><div>Chọn hồ sơ → nhập bài dạy → mở Google Form đã điền → tải file Word → Gửi</div></header>
-<main class="wrap"><aside class="card"><h2>👤 Hồ sơ giáo viên</h2>
-<label>Tên hồ sơ</label><input id="profileName" placeholder="Ví dụ: Nguyễn Thanh Tuấn - Toán">
-<label>Họ và tên</label><input id="p_name"><label>Môn/HĐGD</label><input id="p_subject"><label>Tổ chuyên môn</label><input id="p_team"><label>Tên người duyệt</label><input id="p_approver">
-<div class="actions"><button class="blue" onclick="saveProfile()">💾 Lưu hồ sơ</button></div><h3>Hồ sơ đã lưu</h3><div id="profiles"></div>
-<div class="note ok">✓ V3.2 đã tích hợp đầy đủ mã entry của Google Form. Không cần đọc cấu trúc Form và không còn lỗi 401.</div></aside>
-<section class="card"><h2>📝 Thông tin nộp giáo án</h2>
-<div class="row"><div><label>Họ và tên *</label><input id="name"></div><div><label>Môn/HĐGD *</label><input id="subject"></div></div>
-<div class="row"><div><label>Tổ chuyên môn *</label><input id="team"></div><div><label>Ngày/tháng/năm *</label><input id="date" type="date"></div></div>
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Form Giáo án - Auto V3.6</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f7fc;color:#10203c}
+header{padding:22px 5%;background:linear-gradient(110deg,#2455d9,#13758b);color:#fff}
+header h1{margin:0 0 6px;font-size:28px}
+.wrap{max-width:1250px;margin:26px auto;padding:0 18px;display:grid;grid-template-columns:380px 1fr;gap:22px}
+.card{background:#fff;border-radius:18px;padding:22px;box-shadow:0 8px 28px #16335a12}
+h2{margin-top:0}
+label{font-weight:700;display:block;margin:12px 0 7px}
+input{width:100%;padding:12px;border:1px solid #cbd6e6;border-radius:10px;font-size:16px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+button{border:0;border-radius:11px;padding:12px 15px;font-weight:700;font-size:14px;cursor:pointer}
+.blue{background:#2864ea;color:#fff}.green{background:#0aa164;color:#fff}.light{background:#edf3ff;color:#2455d9}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.quick-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:12px 0 18px}
+.quick{border:1px solid #d8e3f2;border-radius:14px;padding:12px;background:#f8fbff;cursor:pointer;min-height:105px;position:relative}
+.quick:hover{background:#eef5ff;border-color:#9bb8ef}
+.quick.active{outline:2px solid #2a65e8;background:#eef5ff}
+.quick .title{font-weight:800;color:#173d8f;margin-bottom:6px}
+.quick .class{font-size:22px;font-weight:800;color:#0b7b51}
+.quick .meta{font-size:12px;color:#52647e;margin-top:5px;line-height:1.35}
+.quick .edit{position:absolute;right:7px;top:7px;background:#fff;color:#2455d9;border:1px solid #cddcf5;padding:4px 7px;font-size:11px}
+.note{margin-top:18px;padding:14px;border-radius:12px;background:#fff6dc;color:#765600;line-height:1.5}
+.ok{background:#eaf9f1;color:#087b4b}
+.slot-editor{border-top:1px dashed #d6dfec;padding-top:14px;margin-top:6px}
+@media(max-width:850px){.wrap{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<h1>📘 FORM GIÁO ÁN – TỰ ĐỘNG ĐIỀN V3.6</h1>
+<div>3 hồ sơ nhanh • Nháy một lần là tự điền cả lớp</div>
+</header>
+
+<main class="wrap">
+<aside class="card">
+<h2>⚡ Hồ sơ nhanh</h2>
+<div class="quick-grid" id="quickGrid"></div>
+
+<div class="slot-editor">
+<h3 id="editorTitle">Thiết lập Hồ sơ 1</h3>
+<label>Tên hồ sơ</label><input id="profileName" placeholder="Ví dụ: Toán 10A1">
+<label>Họ và tên</label><input id="p_name">
+<label>Môn/HĐGD</label><input id="p_subject">
+<label>Tổ chuyên môn</label><input id="p_team">
+<label>Lớp</label><input id="p_className" placeholder="Ví dụ: 10A1">
+<label>Tên người duyệt</label><input id="p_approver">
+<div class="actions">
+<button class="blue" onclick="saveSlot()">💾 Lưu vào hồ sơ đang chọn</button>
+<button class="light" onclick="clearSlot()">Xóa nội dung hồ sơ</button>
+</div>
+</div>
+
+<div class="note ok">✓ Có sẵn 3 hồ sơ. Ví dụ có thể đặt: <b>Toán 10A1, Toán 11A1, Toán 12A1</b>. Sau này chỉ cần bấm đúng ô là phần Lớp và các thông tin khác tự điền.</div>
+</aside>
+
+<section class="card">
+<h2>📝 Thông tin nộp giáo án</h2>
+<div class="row">
+<div><label>Họ và tên *</label><input id="name"></div>
+<div><label>Môn/HĐGD *</label><input id="subject"></div>
+</div>
+<div class="row">
+<div><label>Tổ chuyên môn *</label><input id="team"></div>
+<div><label>Ngày/tháng/năm *</label><input id="date" type="date"></div>
+</div>
+
 <label>Tên bài học/chuyên đề/nội dung *</label><input id="lesson">
-<div class="row"><div><label>Lớp</label><input id="className"></div><div><label>Số tiết *</label><input id="periods"></div></div>
-<label>Từ tiết đến tiết (a-b)</label><input id="range"><label>Tên người duyệt *</label><input id="approver">
-<div class="actions"><button class="green" onclick="openPrefilled()">🚀 Mở Google Form đã điền</button><button class="light" onclick="clearLesson()">Làm mới bài dạy</button></div>
-<div class="note"><b>Bước cuối:</b> Form Google mở ở tab mới với các trường đã điền sẵn. Kiểm tra lại, tải file Word giáo án lên rồi bấm <b>Gửi</b>. Nếu một lựa chọn thả xuống không khớp chính xác với Form, Google có thể để trống mục đó.</div></section></main>
+
+<div class="row">
+<div><label>Lớp</label><input id="className"></div>
+<div><label>Số tiết *</label><input id="periods"></div>
+</div>
+
+<label>Từ tiết đến tiết (a-b)</label><input id="range">
+<label>Tên người duyệt *</label><input id="approver">
+
+<div class="actions">
+<button class="green" onclick="openPrefilled()">🚀 Mở Google Form đã điền</button>
+<button class="light" onclick="clearLesson()">Làm mới bài dạy</button>
+</div>
+
+<div class="note"><b>Cách dùng nhanh:</b> bấm Hồ sơ 1/2/3 → nhập tên bài, số tiết, khoảng tiết → bấm <b>Mở Google Form đã điền</b> → tải file Word → Gửi.</div>
+</section>
+</main>
+
 <script>
 const FORM="https://docs.google.com/forms/d/e/1FAIpQLSf20YrTDt_BOqmIrZ8oYp85Sd7eCEu2ugcJslLcKbNmCwrU2A/viewform";
 const ENTRY={"name": "1039854064", "subject": "311167583", "team": "1030504847", "date": "392066118", "lesson": "35887539", "className": "851950241", "periods": "993971607", "range": "202499073", "approver": "3704355"};
 const $=id=>document.getElementById(id);
+let selectedSlot=0;
+
 $('date').value=new Date().toISOString().slice(0,10);
-function getProfiles(){return JSON.parse(localStorage.getItem('ga_profiles_v31')||'[]')}
-function render(){let p=getProfiles();$('profiles').innerHTML=p.length?p.map((x,i)=>`<div class="profile" onclick="useProfile(${i})"><b>${x.profileName}</b><br><small>${x.name} • ${x.subject}</small></div>`).join(''):'<small>Chưa có hồ sơ nào.</small>'}
-function saveProfile(){let x={profileName:$('profileName').value||$('p_name').value,name:$('p_name').value,subject:$('p_subject').value,team:$('p_team').value,approver:$('p_approver').value};if(!x.name)return alert('Nhập họ và tên.');let p=getProfiles();let idx=p.findIndex(v=>v.profileName===x.profileName);if(idx>=0)p[idx]=x;else p.push(x);localStorage.setItem('ga_profiles_v31',JSON.stringify(p));render();useProfile(idx>=0?idx:p.length-1)}
-function useProfile(i){let x=getProfiles()[i];$('name').value=x.name;$('subject').value=x.subject;$('team').value=x.team;$('approver').value=x.approver}
-function clearLesson(){$('lesson').value='';$('className').value='';$('periods').value='';$('range').value='';$('date').value=new Date().toISOString().slice(0,10)}
+
+function defaultSlots(){
+ return [0,1,2].map((_,i)=>({
+   profileName:'Hồ sơ '+(i+1), name:'', subject:'', team:'', className:'', approver:''
+ }));
+}
+function getSlots(){
+ const saved=localStorage.getItem('ga_quick_profiles_v36');
+ if(!saved) return defaultSlots();
+ try{
+   const arr=JSON.parse(saved);
+   while(arr.length<3) arr.push(defaultSlots()[arr.length]);
+   return arr.slice(0,3);
+ }catch(e){return defaultSlots();}
+}
+function saveSlots(arr){localStorage.setItem('ga_quick_profiles_v36',JSON.stringify(arr));}
+
+function renderQuick(){
+ const slots=getSlots();
+ $('quickGrid').innerHTML=slots.map((x,i)=>`
+   <div class="quick ${i===selectedSlot?'active':''}" onclick="selectSlot(${i},true)">
+     <button class="edit" onclick="event.stopPropagation();selectSlot(${i},false)">Sửa</button>
+     <div class="title">${x.profileName || ('Hồ sơ '+(i+1))}</div>
+     <div class="class">${x.className ? 'Lớp '+x.className : 'Chưa có lớp'}</div>
+     <div class="meta">${x.name || 'Chưa nhập giáo viên'}${x.subject ? ' • '+x.subject : ''}</div>
+   </div>
+ `).join('');
+}
+
+function loadEditor(i){
+ const x=getSlots()[i];
+ $('editorTitle').textContent='Thiết lập Hồ sơ '+(i+1);
+ $('profileName').value=x.profileName||'';
+ $('p_name').value=x.name||'';
+ $('p_subject').value=x.subject||'';
+ $('p_team').value=x.team||'';
+ $('p_className').value=x.className||'';
+ $('p_approver').value=x.approver||'';
+}
+
+function applySlot(i){
+ const x=getSlots()[i];
+ $('name').value=x.name||'';
+ $('subject').value=x.subject||'';
+ $('team').value=x.team||'';
+ $('className').value=x.className||'';
+ $('approver').value=x.approver||'';
+}
+
+function selectSlot(i,apply){
+ selectedSlot=i;
+ renderQuick();
+ loadEditor(i);
+ if(apply) applySlot(i);
+}
+
+function saveSlot(){
+ const slots=getSlots();
+ slots[selectedSlot]={
+   profileName:$('profileName').value || ('Hồ sơ '+(selectedSlot+1)),
+   name:$('p_name').value,
+   subject:$('p_subject').value,
+   team:$('p_team').value,
+   className:$('p_className').value,
+   approver:$('p_approver').value
+ };
+ saveSlots(slots);
+ renderQuick();
+ applySlot(selectedSlot);
+ alert('Đã lưu Hồ sơ '+(selectedSlot+1));
+}
+
+function clearSlot(){
+ if(!confirm('Xóa nội dung Hồ sơ '+(selectedSlot+1)+'?')) return;
+ const slots=getSlots();
+ slots[selectedSlot]=defaultSlots()[selectedSlot];
+ saveSlots(slots);
+ renderQuick();
+ loadEditor(selectedSlot);
+}
+
+function clearLesson(){
+ $('lesson').value='';
+ $('periods').value='';
+ $('range').value='';
+ $('date').value=new Date().toISOString().slice(0,10);
+}
+
 function openPrefilled(){
- let req=['name','subject','team','date','lesson','periods','approver'];if(req.some(id=>!$(id).value.trim()))return alert('Vui lòng nhập đủ các mục bắt buộc.');
- let u=new URL(FORM);u.searchParams.set('usp','pp_url');
- for(const [field,id] of Object.entries(ENTRY)){let v=$(field).value;if(v)u.searchParams.set('entry.'+id,v)}
+ const req=['name','subject','team','date','lesson','periods','approver'];
+ if(req.some(id=>!$(id).value.trim())) return alert('Vui lòng nhập đủ các mục bắt buộc.');
+ const u=new URL(FORM);
+ u.searchParams.set('usp','pp_url');
+ for(const [field,id] of Object.entries(ENTRY)){
+   const v=$(field).value;
+   if(v) u.searchParams.set('entry.'+id,v);
+ }
  window.open(u.toString(),'_blank');
 }
-render();
-</script></body></html>
+
+renderQuick();
+loadEditor(0);
+</script>
+</body>
+</html>

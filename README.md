@@ -1,4 +1,5 @@
-FORM GIAO AN AUTO V3.2
+FORM GIAO AN AUTO V3.6
 
-Sua mapping: dung entry ID ben trong data-params, khong dung question ID ben ngoai.
-Upload index.html va vercel.json len repo GitHub/Vercel.
+- Giao dien 3 ho so nhanh.
+- Moi ho so luu Ho ten, Mon, To, Lop, Nguoi duyet.
+- Bam 1 lan de tu dong dien thong tin.
