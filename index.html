@@ -3,90 +3,158 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Form Giáo án - Auto V3.6</title>
+<title>Nộp giáo án online</title>
 <style>
+:root{
+  --blue:#1265e8; --green:#16a34a; --orange:#f59e0b; --purple:#7c3aed;
+  --ink:#10203c; --muted:#66758d; --line:#dbe5f1; --bg:#f5f8fc;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f7fc;color:#10203c}
-header{padding:22px 5%;background:linear-gradient(110deg,#2455d9,#13758b);color:#fff}
-header h1{margin:0 0 6px;font-size:28px}
-.wrap{max-width:1250px;margin:26px auto;padding:0 18px;display:grid;grid-template-columns:380px 1fr;gap:22px}
-.card{background:#fff;border-radius:18px;padding:22px;box-shadow:0 8px 28px #16335a12}
-h2{margin-top:0}
-label{font-weight:700;display:block;margin:12px 0 7px}
-input{width:100%;padding:12px;border:1px solid #cbd6e6;border-radius:10px;font-size:16px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-button{border:0;border-radius:11px;padding:12px 15px;font-weight:700;font-size:14px;cursor:pointer}
-.blue{background:#2864ea;color:#fff}.green{background:#0aa164;color:#fff}.light{background:#edf3ff;color:#2455d9}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
-.quick-grid{display:grid;grid-template-columns:1fr;gap:10px;margin:12px 0 18px}
-.quick{border:1px solid #d8e3f2;border-radius:14px;padding:12px;background:#f8fbff;cursor:pointer;min-height:105px;position:relative}
-.quick:hover{background:#eef5ff;border-color:#9bb8ef}
-.quick.active{outline:2px solid #2a65e8;background:#eef5ff}
-.quick .title{font-weight:800;color:#173d8f;margin-bottom:6px}
-.quick .class{font-size:22px;font-weight:800;color:#0b7b51}
-.quick .meta{font-size:12px;color:#52647e;margin-top:5px;line-height:1.35}
-.quick .edit{position:absolute;right:7px;top:7px;background:#fff;color:#2455d9;border:1px solid #cddcf5;padding:4px 7px;font-size:11px}
-.note{margin-top:18px;padding:14px;border-radius:12px;background:#fff6dc;color:#765600;line-height:1.5}
-.ok{background:#eaf9f1;color:#087b4b}
-.slot-editor{border-top:1px dashed #d6dfec;padding-top:14px;margin-top:6px}
-@media(max-width:850px){.wrap{grid-template-columns:1fr}.row{grid-template-columns:1fr}}
+body{margin:0;font-family:"Segoe UI","Noto Sans","Roboto","Arial",sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+.topbar{
+  background:linear-gradient(110deg,#1634c8,#0d8ee9);
+  color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;
+  box-shadow:0 3px 14px #16335a22;position:sticky;top:0;z-index:5
+}
+.brand{display:flex;gap:12px;align-items:center}.brand .logo{font-size:38px}
+.brand h1{margin:0;font-size:25px}.brand small{display:block;margin-top:2px;font-size:14px}
+.nav{display:flex;gap:12px}.nav button{padding:11px 18px;border-radius:9px;border:1px solid #ffffff77;color:#fff;font-weight:700}
+.nav .b1{background:#0f63da}.nav .b2{background:#16a34a}.nav .b3{background:#8b5cf6}
+.page{max-width:1480px;margin:18px auto;padding:0 18px}
+.layout{display:grid;grid-template-columns:39% 61%;gap:16px}
+.panel{background:white;border:1px solid #e3eaf3;border-radius:14px;box-shadow:0 6px 22px #17335f0d;padding:18px}
+.title{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.title h2{font-size:20px;margin:0;font-weight:700}.subtitle{font-size:14px;color:var(--muted);margin-bottom:14px;line-height:1.5}
+.profile{
+  border:1.5px solid var(--line);border-radius:12px;padding:13px 14px;margin-bottom:12px;
+  display:grid;grid-template-columns:54px 1fr;gap:10px;position:relative;background:#fff
+}
+.profile.blue{border-color:#7eb0ff;background:#f7fbff}
+.profile.green{border-color:#91d7aa;background:#fbfffc}
+.profile.orange{border-color:#f7c86a;background:#fffdf7}
+.avatar{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:23px;font-weight:700}
+.profile.blue .avatar{background:#2878e8}.profile.green .avatar{background:#18a54c}.profile.orange .avatar{background:#f59e0b}
+.profile .badge{font-weight:600;border-radius:10px;padding:4px 10px;display:inline-block;font-size:13px;margin-bottom:5px}
+.profile.blue .badge{background:#dbeafe;color:#1d4ed8}.profile.green .badge{background:#dcfce7;color:#15803d}.profile.orange .badge{background:#fef3c7;color:#b45309}
+.pname{font-weight:600;margin-bottom:6px;font-size:15px}.meta{font-size:14px;line-height:1.65;color:#334155}
+.pick{grid-column:1/-1;border:0;border-radius:8px;padding:9px;color:#fff;font-weight:600;cursor:pointer}
+.profile.blue .pick{background:#1265e8}.profile.green .pick{background:#16a34a}.profile.orange .pick{background:#f59e0b}
+.star{position:absolute;right:12px;top:12px;color:#64748b;font-size:12px}
+.profile-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.outline{background:#fff;border:1px solid #8db3ef;color:#1265e8;border-radius:8px;padding:10px;font-weight:700}
+.danger{background:#fff1f2;border:1px solid #f2a7ae;color:#c12835;border-radius:8px;padding:10px;font-weight:700}
+.tip{margin-top:12px;background:#eef6ff;border:1px solid #cfe0f8;border-radius:8px;padding:10px;font-size:13px;color:#346089}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px 20px}
+.field.full{grid-column:1/-1}.field label{display:block;font-size:15px;font-weight:600;margin:0 0 7px;line-height:1.35}
+.req{color:#e11d48}input,select{
+  width:100%;padding:11px 12px;border:1px solid #cdd9e8;border-radius:8px;font-size:16px;font-weight:400;background:#fff;color:#17233a;line-height:1.4
+}
+.uploadbox{
+  grid-column:1/-1;border:1px solid #a7d9b3;background:#f5fff7;border-radius:9px;padding:12px 14px
+}
+.uploadtitle{font-weight:800;color:#12712c;font-size:14px;margin-bottom:8px}
+.fileline{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.fileinfo{display:flex;gap:10px;align-items:center}.fileicon{font-size:30px}.choose{padding:9px 14px;border:1px solid #9fbef0;background:#fff;color:#1265e8;border-radius:8px;font-weight:700}
+.actions{display:grid;grid-template-columns:1.3fr 1fr .75fr;gap:12px;margin-top:16px}
+.actions button{padding:12px;border-radius:8px;border:0;font-weight:600;cursor:pointer}
+.open{background:#1265e8;color:white}.save{background:#16a34a;color:#fff}.reset{background:white;border:1px solid #ccd7e5!important;color:#27364f}
+.process{
+  margin-top:16px;background:#fffaf0;border:1px solid #f7dfab;border-radius:13px;padding:15px 18px
+}
+.process h3{margin:0 0 12px;color:#be6500;font-size:17px;font-weight:700}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.step{display:flex;gap:10px;align-items:flex-start}.ico{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
+.step:nth-child(1) .ico{background:#ede9fe}.step:nth-child(2) .ico{background:#dbeafe}.step:nth-child(3) .ico{background:#dcfce7}.step:nth-child(4) .ico{background:#ffedd5}.step:nth-child(5) .ico{background:#fce7f3}
+.step b{display:block;font-size:14px;margin-bottom:3px;font-weight:600}.step span{font-size:13px;color:#59677c;line-height:1.5}
+.hiddenEditor{display:none;margin-top:12px;padding-top:12px;border-top:1px dashed #d8e1ed}
+.hiddenEditor.opened{display:block}
+.editorGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.editorGrid .full{grid-column:1/-1}
+.editorGrid input{padding:9px;font-size:14px}
+.editorButtons{display:flex;gap:8px;margin-top:9px}
+.editorButtons button{padding:9px 12px;border-radius:8px;border:0;font-weight:700}
+@media(max-width:980px){.layout{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.nav{display:none}}
+@media(max-width:620px){.formgrid,.actions,.profile-actions,.editorGrid{grid-template-columns:1fr}.steps{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<header>
-<h1>📘 FORM GIÁO ÁN – TỰ ĐỘNG ĐIỀN V3.6</h1>
-<div>3 hồ sơ nhanh • Nháy một lần là tự điền cả lớp</div>
+<header class="topbar">
+  <div class="brand"><div class="logo">📝</div><div><h1>NỘP GIÁO ÁN ONLINE</h1><small>Tự động điền Google Form</small></div></div>
+  <div class="nav"><button class="b1">👤 Hồ sơ của tôi</button><button class="b2">📖 Hướng dẫn</button><button class="b3">ℹ Giới thiệu</button></div>
 </header>
 
-<main class="wrap">
-<aside class="card">
-<h2>⚡ Hồ sơ nhanh</h2>
-<div class="quick-grid" id="quickGrid"></div>
+<main class="page">
+<div class="layout">
+<section class="panel">
+  <div class="title"><span style="font-size:25px">👥</span><h2>CHỌN HỒ SƠ NHANH</h2></div>
+  <div class="subtitle">Chọn 1 trong 3 hồ sơ để tự động điền thông tin</div>
+  <div id="profiles"></div>
 
-<div class="slot-editor">
-<h3 id="editorTitle">Thiết lập Hồ sơ 1</h3>
-<label>Tên hồ sơ</label><input id="profileName" placeholder="Ví dụ: Toán 10A1">
-<label>Họ và tên</label><input id="p_name">
-<label>Môn/HĐGD</label><input id="p_subject">
-<label>Tổ chuyên môn</label><input id="p_team">
-<label>Lớp</label><input id="p_className" placeholder="Ví dụ: 10A1">
-<label>Tên người duyệt</label><input id="p_approver">
-<div class="actions">
-<button class="blue" onclick="saveSlot()">💾 Lưu vào hồ sơ đang chọn</button>
-<button class="light" onclick="clearSlot()">Xóa nội dung hồ sơ</button>
+  <div class="profile-actions">
+    <button class="outline" onclick="toggleEditor()">＋ Tạo / sửa hồ sơ</button>
+    <button class="danger" onclick="clearCurrent()">🗑 Xóa hồ sơ đã chọn</button>
+  </div>
+
+  <div id="editor" class="hiddenEditor">
+    <div class="editorGrid">
+      <input id="p_title" class="full" placeholder="Tên hồ sơ, ví dụ: Toán 10A1">
+      <input id="p_name" placeholder="Họ và tên">
+      <input id="p_subject" placeholder="Môn/HĐGD">
+      <input id="p_team" placeholder="Tổ chuyên môn">
+      <input id="p_class" placeholder="Lớp">
+      <input id="p_approver" class="full" placeholder="Tên người duyệt">
+    </div>
+    <div class="editorButtons"><button style="background:#1265e8;color:#fff" onclick="saveCurrent()">💾 Lưu hồ sơ</button><button onclick="toggleEditor()">Đóng</button></div>
+  </div>
+
+  <div class="tip">💡 Mẹo: Chọn hồ sơ bên trái để tự động điền Họ tên, Môn, Tổ, Lớp và Người duyệt.</div>
+</section>
+
+<section class="panel">
+  <div class="title"><span style="font-size:25px">📝</span><h2>THÔNG TIN NỘP GIÁO ÁN</h2></div>
+  <div class="subtitle">Kiểm tra và nhập thêm thông tin bài dạy</div>
+
+  <div class="formgrid">
+    <div class="field"><label>Họ và tên <span class="req">*</span></label><input id="name"></div>
+    <div class="field"><label>Môn/HĐGD <span class="req">*</span></label><input id="subject"></div>
+
+    <div class="field"><label>Tổ chuyên môn <span class="req">*</span></label><input id="team"></div>
+    <div class="field"><label>Ngày/tháng/năm <span class="req">*</span></label><input id="date" type="date"></div>
+
+    <div class="field full"><label>Tên bài học/chuyên đề/nội dung <span class="req">*</span></label><input id="lesson"></div>
+
+    <div class="field"><label>Lớp <span class="req">*</span></label><input id="className"></div>
+    <div class="field"><label>Số tiết <span class="req">*</span></label><input id="periods"></div>
+
+    <div class="field full"><label>Từ tiết đến tiết (a-b) <span class="req">*</span></label><input id="range"></div>
+    <div class="field full"><label>Tên người duyệt <span class="req">*</span></label><input id="approver"></div>
+
+    <div class="uploadbox">
+      <div class="uploadtitle">Tải file giáo án nộp để duyệt (01 file word, nếu có nhiều file sẽ ghép vào thành 01 file)</div>
+      <div class="fileline">
+        <div class="fileinfo"><div class="fileicon">📘</div><div><b id="fileName">Chưa chọn file nào</b><br><small>Định dạng: .doc, .docx</small></div></div>
+        <label class="choose">⬆ Chọn file<input id="fileInput" type="file" accept=".doc,.docx" hidden></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="open" onclick="openPrefilled()">🚀 Mở Google Form đã điền</button>
+    <button class="save" onclick="saveLesson()">💾 Lưu thông tin bài dạy</button>
+    <button class="reset" onclick="resetLesson()">↻ Làm mới</button>
+  </div>
+</section>
 </div>
-</div>
 
-<div class="note ok">✓ Có sẵn 3 hồ sơ. Ví dụ có thể đặt: <b>Toán 10A1, Toán 11A1, Toán 12A1</b>. Sau này chỉ cần bấm đúng ô là phần Lớp và các thông tin khác tự điền.</div>
-</aside>
-
-<section class="card">
-<h2>📝 Thông tin nộp giáo án</h2>
-<div class="row">
-<div><label>Họ và tên *</label><input id="name"></div>
-<div><label>Môn/HĐGD *</label><input id="subject"></div>
-</div>
-<div class="row">
-<div><label>Tổ chuyên môn *</label><input id="team"></div>
-<div><label>Ngày/tháng/năm *</label><input id="date" type="date"></div>
-</div>
-
-<label>Tên bài học/chuyên đề/nội dung *</label><input id="lesson">
-
-<div class="row">
-<div><label>Lớp</label><input id="className"></div>
-<div><label>Số tiết *</label><input id="periods"></div>
-</div>
-
-<label>Từ tiết đến tiết (a-b)</label><input id="range">
-<label>Tên người duyệt *</label><input id="approver">
-
-<div class="actions">
-<button class="green" onclick="openPrefilled()">🚀 Mở Google Form đã điền</button>
-<button class="light" onclick="clearLesson()">Làm mới bài dạy</button>
-</div>
-
-<div class="note"><b>Cách dùng nhanh:</b> bấm Hồ sơ 1/2/3 → nhập tên bài, số tiết, khoảng tiết → bấm <b>Mở Google Form đã điền</b> → tải file Word → Gửi.</div>
+<section class="process">
+  <h3>QUY TRÌNH NỘP GIÁO ÁN</h3>
+  <div class="steps">
+    <div class="step"><div class="ico">👤</div><div><b>1. Chọn hồ sơ</b><span>Chọn 1 trong 3 hồ sơ bên trái.</span></div></div>
+    <div class="step"><div class="ico">📝</div><div><b>2. Nhập thông tin bài dạy</b><span>Nhập tên bài, số tiết, khoảng tiết, ngày dạy.</span></div></div>
+    <div class="step"><div class="ico">⬆</div><div><b>3. Tải file giáo án</b><span>Chọn file Word nếu cần gửi kèm.</span></div></div>
+    <div class="step"><div class="ico">🚀</div><div><b>4. Mở Google Form</b><span>Bấm để mở Form đã được điền sẵn.</span></div></div>
+    <div class="step"><div class="ico">✅</div><div><b>5. Gửi form</b><span>Tải file lên trong Google Form và bấm Gửi.</span></div></div>
+  </div>
 </section>
 </main>
 
@@ -94,111 +162,82 @@ button{border:0;border-radius:11px;padding:12px 15px;font-weight:700;font-size:1
 const FORM="https://docs.google.com/forms/d/e/1FAIpQLSf20YrTDt_BOqmIrZ8oYp85Sd7eCEu2ugcJslLcKbNmCwrU2A/viewform";
 const ENTRY={"name": "1039854064", "subject": "311167583", "team": "1030504847", "date": "392066118", "lesson": "35887539", "className": "851950241", "periods": "993971607", "range": "202499073", "approver": "3704355"};
 const $=id=>document.getElementById(id);
-let selectedSlot=0;
+let selected=0;
 
-$('date').value=new Date().toISOString().slice(0,10);
-
-function defaultSlots(){
- return [0,1,2].map((_,i)=>({
-   profileName:'Hồ sơ '+(i+1), name:'', subject:'', team:'', className:'', approver:''
- }));
+function defaults(){
+ return [
+  {title:'Hồ sơ 1',name:'',subject:'',team:'',className:'',approver:''},
+  {title:'Hồ sơ 2',name:'',subject:'',team:'',className:'',approver:''},
+  {title:'Hồ sơ 3',name:'',subject:'',team:'',className:'',approver:''}
+ ];
 }
-function getSlots(){
- const saved=localStorage.getItem('ga_quick_profiles_v36');
- if(!saved) return defaultSlots();
+function getProfiles(){
  try{
-   const arr=JSON.parse(saved);
-   while(arr.length<3) arr.push(defaultSlots()[arr.length]);
-   return arr.slice(0,3);
- }catch(e){return defaultSlots();}
+  const s=JSON.parse(localStorage.getItem('ga_profiles_v37')||'null');
+  if(Array.isArray(s)){while(s.length<3)s.push(defaults()[s.length]);return s.slice(0,3)}
+ }catch(e){}
+ return defaults();
 }
-function saveSlots(arr){localStorage.setItem('ga_quick_profiles_v36',JSON.stringify(arr));}
-
-function renderQuick(){
- const slots=getSlots();
- $('quickGrid').innerHTML=slots.map((x,i)=>`
-   <div class="quick ${i===selectedSlot?'active':''}" onclick="selectSlot(${i},true)">
-     <button class="edit" onclick="event.stopPropagation();selectSlot(${i},false)">Sửa</button>
-     <div class="title">${x.profileName || ('Hồ sơ '+(i+1))}</div>
-     <div class="class">${x.className ? 'Lớp '+x.className : 'Chưa có lớp'}</div>
-     <div class="meta">${x.name || 'Chưa nhập giáo viên'}${x.subject ? ' • '+x.subject : ''}</div>
+function saveProfiles(p){localStorage.setItem('ga_profiles_v37',JSON.stringify(p))}
+function esc(x){return (x||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function renderProfiles(){
+ const p=getProfiles(), cls=['blue','green','orange'];
+ $('profiles').innerHTML=p.map((x,i)=>`
+ <div class="profile ${cls[i]}">
+   <div class="avatar">${i+1}</div>
+   <div>
+    <div class="badge">${esc(x.title||('Hồ sơ '+(i+1)))}</div>
+    <div class="pname">${esc(x.name)||'Chưa nhập giáo viên'}</div>
+    <div class="meta">📘 Môn: <b>${esc(x.subject)||'-'}</b><br>👥 Tổ: <b>${esc(x.team)||'-'}</b> &nbsp;&nbsp; 🎓 Lớp: <b>${esc(x.className)||'-'}</b><br>👤 Duyệt: <b>${esc(x.approver)||'-'}</b></div>
    </div>
- `).join('');
+   <div class="star">☆ Đặt làm mặc định</div>
+   <button class="pick" onclick="useProfile(${i})">✓ Chọn hồ sơ này</button>
+ </div>`).join('');
 }
-
-function loadEditor(i){
- const x=getSlots()[i];
- $('editorTitle').textContent='Thiết lập Hồ sơ '+(i+1);
- $('profileName').value=x.profileName||'';
- $('p_name').value=x.name||'';
- $('p_subject').value=x.subject||'';
- $('p_team').value=x.team||'';
- $('p_className').value=x.className||'';
- $('p_approver').value=x.approver||'';
-}
-
-function applySlot(i){
- const x=getSlots()[i];
- $('name').value=x.name||'';
- $('subject').value=x.subject||'';
- $('team').value=x.team||'';
- $('className').value=x.className||'';
- $('approver').value=x.approver||'';
-}
-
-function selectSlot(i,apply){
- selectedSlot=i;
- renderQuick();
+function useProfile(i){
+ selected=i; const x=getProfiles()[i];
+ $('name').value=x.name||'';$('subject').value=x.subject||'';$('team').value=x.team||'';
+ $('className').value=x.className||'';$('approver').value=x.approver||'';
  loadEditor(i);
- if(apply) applySlot(i);
 }
-
-function saveSlot(){
- const slots=getSlots();
- slots[selectedSlot]={
-   profileName:$('profileName').value || ('Hồ sơ '+(selectedSlot+1)),
-   name:$('p_name').value,
-   subject:$('p_subject').value,
-   team:$('p_team').value,
-   className:$('p_className').value,
-   approver:$('p_approver').value
- };
- saveSlots(slots);
- renderQuick();
- applySlot(selectedSlot);
- alert('Đã lưu Hồ sơ '+(selectedSlot+1));
+function loadEditor(i){
+ const x=getProfiles()[i];$('p_title').value=x.title||'';$('p_name').value=x.name||'';$('p_subject').value=x.subject||'';
+ $('p_team').value=x.team||'';$('p_class').value=x.className||'';$('p_approver').value=x.approver||'';
 }
-
-function clearSlot(){
- if(!confirm('Xóa nội dung Hồ sơ '+(selectedSlot+1)+'?')) return;
- const slots=getSlots();
- slots[selectedSlot]=defaultSlots()[selectedSlot];
- saveSlots(slots);
- renderQuick();
- loadEditor(selectedSlot);
+function toggleEditor(){$('editor').classList.toggle('opened');loadEditor(selected)}
+function saveCurrent(){
+ const p=getProfiles();p[selected]={title:$('p_title').value||('Hồ sơ '+(selected+1)),name:$('p_name').value,subject:$('p_subject').value,team:$('p_team').value,className:$('p_class').value,approver:$('p_approver').value};
+ saveProfiles(p);renderProfiles();useProfile(selected);alert('Đã lưu hồ sơ.');
 }
-
-function clearLesson(){
- $('lesson').value='';
- $('periods').value='';
- $('range').value='';
- $('date').value=new Date().toISOString().slice(0,10);
+function clearCurrent(){
+ if(!confirm('Xóa nội dung hồ sơ đang chọn?'))return;
+ const p=getProfiles();p[selected]=defaults()[selected];saveProfiles(p);renderProfiles();useProfile(selected);
 }
+function today(){return new Date().toISOString().slice(0,10)}
+$('date').value=today();
 
+$('fileInput').addEventListener('change',e=>{
+ const f=e.target.files[0];$('fileName').textContent=f?f.name:'Chưa chọn file nào';
+});
+
+function saveLesson(){
+ const data={lesson:$('lesson').value,periods:$('periods').value,range:$('range').value,date:$('date').value};
+ localStorage.setItem('ga_lesson_v37',JSON.stringify(data));alert('Đã lưu thông tin bài dạy.');
+}
+function loadLesson(){
+ try{const d=JSON.parse(localStorage.getItem('ga_lesson_v37')||'{}');if(d.lesson)$('lesson').value=d.lesson;if(d.periods)$('periods').value=d.periods;if(d.range)$('range').value=d.range;if(d.date)$('date').value=d.date}catch(e){}
+}
+function resetLesson(){
+ $('lesson').value='';$('periods').value='';$('range').value='';$('date').value=today();$('fileInput').value='';$('fileName').textContent='Chưa chọn file nào';
+}
 function openPrefilled(){
- const req=['name','subject','team','date','lesson','periods','approver'];
- if(req.some(id=>!$(id).value.trim())) return alert('Vui lòng nhập đủ các mục bắt buộc.');
- const u=new URL(FORM);
- u.searchParams.set('usp','pp_url');
- for(const [field,id] of Object.entries(ENTRY)){
-   const v=$(field).value;
-   if(v) u.searchParams.set('entry.'+id,v);
- }
+ const req=['name','subject','team','date','lesson','className','periods','range','approver'];
+ if(req.some(id=>!$(id).value.trim()))return alert('Vui lòng nhập đủ các mục bắt buộc.');
+ const u=new URL(FORM);u.searchParams.set('usp','pp_url');
+ for(const [field,id] of Object.entries(ENTRY)){const v=$(field).value;if(v)u.searchParams.set('entry.'+id,v)}
  window.open(u.toString(),'_blank');
 }
-
-renderQuick();
-loadEditor(0);
+renderProfiles();loadEditor(0);loadLesson();
 </script>
 </body>
 </html>
